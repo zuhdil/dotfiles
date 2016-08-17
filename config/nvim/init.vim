@@ -3,14 +3,10 @@
 let g:loaded_vimballPlugin=1
 let g:loaded_vimball=1
 
-" automatically install vim-plug
-let s:has_bundle=1
-if !filereadable(expand("~/.config/nvim/autoload/plug.vim"))
-  echo "Installing vim-plug..."
-  echo ""
-  silent call mkdir(expand("~/.config/nvim/autoload"), 'p')
-  silent exe '!curl -fLo '.expand("~/.config/nvim/autoload/plug.vim").' https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  let s:has_bundle=0
+if empty(glob('~/.config/nvim/autoload/plug.vim'))
+  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall | source $MYVIMRC
 endif
 
 " plugin list
@@ -91,8 +87,6 @@ call plug#begin(expand("~/.config/nvim/bundle"))
   " better autocompletion for javascript
   Plug 'marijnh/tern_for_vim'           ,{ 'do': 'npm install' }
 
-  "let g:tern#command = ["nodejs", expand('<sfile>:h') . '/bundle/tern_for_vim/node_modules/tern/bin/tern', '--no-port-file']
-
 
   " javascript syntax & indent
   Plug 'pangloss/vim-javascript'
@@ -136,13 +130,6 @@ call plug#begin(expand("~/.config/nvim/bundle"))
 
 
 call plug#end()
-
-" installing plugins for the first time
-if s:has_bundle == 0 || !isdirectory(expand("~/.config/nvim/bundle"))
-  echo "Installing Plugins..."
-  echo ""
-  :PlugInstall
-endif
 
 " Load matchit.vim, but only if the user hasn't installed a newer version.
 if !exists('g:loaded_matchit') && findfile('plugin/matchit.vim', &rtp) ==# ''
