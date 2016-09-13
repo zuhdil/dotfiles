@@ -84,6 +84,14 @@ call plug#begin(expand("~/.config/nvim/bundle"))
   Plug 'shawncplus/phpcomplete.vim'
 
 
+  " haskell syntax
+  Plug 'neovimhaskell/haskell-vim'
+
+
+  " scala syntax
+  Plug 'derekwyatt/vim-scala'
+
+
   " better autocompletion for javascript
   Plug 'marijnh/tern_for_vim'           ,{ 'do': 'npm install' }
 
