@@ -37,37 +37,44 @@ GIT_PS1_SHOWUPSTREAM="auto"
 # support display background jobs in the prompt
 __jobs_ps1 ()
 {
-    local c_red='\[\e[31m\]'
-    local c_clear='\[\e[0m\]'
-    local printf_format=' (%s)'
-
     if ! [ "$(jobs -p)" ]; then
         return 0
     fi
 
-    local jobs_string=$c_red$(jobs -p | wc -l)$c_clear
-    printf -- "$printf_format" "$jobs_string"
+    local c_red='\[\e[31m\]'
+    local c_clear='\[\e[0m\]'
+    local printf_format=' (%s)'
+
+    printf -- "$printf_format" "$c_red$(jobs -p | wc -l)$c_clear"
 }
 
-# custom plain command prompt without bells and whistles
-__custom_ps1()
+# support display python virtualenv in the prompt
+__venv_ps1()
 {
-    local c_color='\[\e[35m\]'
+    if ! [ "$VIRTUAL_ENV" ]; then
+        return 0
+    fi
+
+    local c_yellow='\[\e[33m\]'
+    local c_clear='\[\e[0m\]'
+    local printf_format='(%s) '
+
+    printf -- "$printf_format" "$c_yellow$(basename $VIRTUAL_ENV)$c_clear"
+}
+
+# custom command prompt
+__prompt_command()
+{
+    local c_purple='\[\e[35m\]'
     local c_clear='\[\e[0m\]'
 
-    printf -- "%s" "$c_color\w$c_clear"
+    __git_ps1 "$(__venv_ps1)$c_purple\w$c_clear" "$(__jobs_ps1)\n\$ " " [%s]"
 }
 
 # support open new terminal in the current directory (on termite)
-source /etc/profile.d/vte.sh
-__termite_vte_ps1() {
-
-    __git_ps1 "$(__custom_ps1)" "$(__jobs_ps1)\n\$ " " [%s]"
-    printf -- "%s" "$(__vte_osc7)"
-}
-
 if [[ $TERM == xterm-termite ]]; then
-    PROMPT_COMMAND="__termite_vte_ps1"
+    source /etc/profile.d/vte.sh
+    PROMPT_COMMAND="__prompt_command; __vte_osc7"
 else
-    PROMPT_COMMAND='__git_ps1 "$(__custom_ps1)" "$(__jobs_ps1)\n\$ " " [%s]"'
+    PROMPT_COMMAND="__prompt_command"
 fi
