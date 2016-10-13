@@ -1,0 +1,50 @@
+#!/bin/bash
+
+returncode=0
+
+__unmount()   # $1=device
+{
+    errormsg=`udisksctl unmount --block-device $1 --no-user-interaction 2>&1`
+    errorcode="$?"
+
+    if [ "$errormsg" != "" ]; then
+        echo "$errormsg"
+    fi
+    if [ $errorcode -ne 0 ]; then
+        returncode=3
+        return 3
+    fi
+}
+
+if [ "$1" = "" ]; then
+    echo "Specify a device or directory to unmount" 1>&2
+    exit 1
+fi
+
+d="$1"
+
+# remove trailing slash
+if [ "$d" != "/" ]; then
+    d="${d%/}"
+fi
+
+if [ "${d:0:5}" = "/dev/" ]; then
+    # Unmount DEVICE
+    __unmount "$d"
+else
+    # Unmount DIR
+    if [ ! -d "$d" ]; then
+        echo "No such directory or mounted device $d" 1>&2
+        returncode=3
+    else
+        dv=`mount | grep -m 1 " on $d type " | awk '{print $1}'`
+        if [ "$dv" = "" ]; then
+            echo "Nothing mounted on $d (mtab)" 1>&2
+            returncode=3
+        else
+            __unmount "$dv"
+        fi
+    fi
+fi
+
+exit $returncode
