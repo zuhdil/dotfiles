@@ -18,7 +18,7 @@ do
     #echo "directory '$destination' created";
 done
 
-for filerc in $(find . ! -path "*.git*" ! -name "$SCRIPT" -type f | sed 's/^\.\///')
+for filerc in $(find . ! -path "*.git*" ! -name "$SCRIPT" ! -iname "*readme*" -type f | sed 's/^\.\///')
 do
     destination="$TARGETDIR/.$filerc"
     source="$SOURCEDIR/$filerc"
