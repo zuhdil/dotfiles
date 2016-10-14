@@ -52,9 +52,19 @@ call plug#begin(expand("~/.config/nvim/bundle"))
   Plug 'danro/rename.vim'               , { 'on': 'Rename' }
 
 
-  " easy session manager
+  " session helper
   if has('mksession')
-    Plug 'vim-scripts/sessionman.vim'   , { 'on': ['SessionList', 'SessionOpenLast', 'SessionSaveAs'] }
+    Plug 'tpope/vim-obsession'
+
+    if has('statusline')
+        set statusline=%<%f\ %h%m%r%=%{ObsessionStatus()}\ %-14.(%l,%c%V%)\ %P
+    endif
+
+
+    Plug 'zuhdil/vim-posession'
+
+    let g:posession_dir = '~/.local/share/nvim/session/'
+
   endif
 
 
