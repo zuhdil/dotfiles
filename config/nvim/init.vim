@@ -110,6 +110,10 @@ call plug#begin(expand("~/.config/nvim/bundle"))
   Plug 'pangloss/vim-javascript'
 
 
+  " vue syntax
+  Plug 'posva/vim-vue'
+
+
   " html5 omnicomplete and syntax
   Plug 'othree/html5.vim'
   Plug 'othree/html5-syntax.vim'
