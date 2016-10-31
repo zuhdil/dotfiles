@@ -18,6 +18,13 @@ export VISUAL="nvim"
 export EDITOR="nvim"
 
 
+# Fix unreadable ntfs directory color ===============================
+
+if [ -x /usr/bin/dircolors ]; then
+    test -r $HOME/.config/dircolors/config && eval "$(/usr/bin/dircolors -b $HOME/.config/dircolors/config)"
+fi
+
+
 # ALIASES ===========================================================
 
 alias ls='ls --color=auto'
