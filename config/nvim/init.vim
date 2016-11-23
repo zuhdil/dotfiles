@@ -219,6 +219,7 @@ autocmd Filetype css        setlocal ts=2 sts=2 sw=2 expandtab
 autocmd Filetype less       setlocal ts=2 sts=2 sw=2 expandtab
 autocmd Filetype html       setlocal ts=2 sts=2 sw=2 expandtab
 autocmd Filetype html.twig  setlocal ts=2 sts=2 sw=2 expandtab
+autocmd FileType blade      setlocal ts=2 sts=2 sw=2 expandtab
 
 
 "" Miscellaneous ==================================================================
