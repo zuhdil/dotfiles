@@ -18,27 +18,27 @@ do
     #echo "directory '$destination' created";
 done
 
-for filerc in $(find . ! -path "*.git*" ! -name "$SCRIPT" ! -iname "*readme*" -type f | sed 's/^\.\///')
+for filerc in $(find . ! -path "*.git*" ! -name "$SCRIPT" ! -iname "*readme*" ! -name ".DS_Store" -type f | sed 's/^\.\///')
 do
     destination="$TARGETDIR/.$filerc"
     source="$SOURCEDIR/$filerc"
 
     if [ -L $destination -a "$(readlink -f $destination)" -ef $source ]
     then
-        #echo "$destination is already symlinked";
+        echo "$destination is already symlinked";
         continue
     fi
 
     if [ -f $destination -a ! -L $destination ]
     then
-        #echo "found existing file $destination, creating backup in $destination.orig"
+        echo "found existing file $destination, creating backup in $destination.orig"
         cp $destination $destination.orig
         rm $destination
     fi
 
     if [ -L $destination ]
     then
-        #echo "remove already exist symlink $destination"
+        echo "remove already exist symlink $destination"
         rm $destination
     fi
 
