@@ -79,7 +79,7 @@ call plug#begin(expand("~/.config/nvim/bundle"))
   " manage tags files
   Plug 'ludovicchabant/vim-gutentags'
 
-  let g:gutentags_exclude = ['*.css', '*.html', '*.js', '*compiled.php']
+  let g:gutentags_ctags_exclude = ['*.css', '*.html', '*.js', '*compiled.php']
   let g:gutentags_cache_dir = expand("~/.local/share/nvim/tags")
 
 
