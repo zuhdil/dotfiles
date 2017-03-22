@@ -38,6 +38,9 @@ call plug#begin(expand("~/.config/nvim/bundle"))
       \ },
     \ 'fallback': 'find %s -type f'
     \ }
+  let g:ctrlp_prompt_mappings = {
+    \ 'PrtClearCache()':      ['<F5>', '<c-q>'],
+    \ }
 
 
   " netrw enhanced
