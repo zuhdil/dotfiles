@@ -41,7 +41,7 @@ __jobs_ps1 ()
         return 0
     fi
 
-    if [ -n ${ZSH_VERSION-} ]; then
+    if [[ -n ${ZSH_VERSION-} ]]; then
         local color='%F{red}'
         local clear='%f'
     else
@@ -61,7 +61,7 @@ __venv_ps1()
         return 0
     fi
 
-    if [ -n ${ZSH_VERSION-} ]; then
+    if [[ -n ${ZSH_VERSION-} ]]; then
         local color='%F{131}'
         local clear='%f'
     else
