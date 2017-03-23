@@ -1,9 +1,9 @@
 #- ALIASES
 #------------------------------------
 
-alias ls="ls --color=always"
-alias grep="grep --color=always"
-alias egrep="egrep --color=always"
+alias ls="ls --color=auto"
+alias grep="grep --color=auto"
+alias egrep="egrep --color=auto"
 alias less="less -R"
 alias tmux='tmux -2 -f ~/.config/tmux/init.conf'
 alias vim='nvim'
