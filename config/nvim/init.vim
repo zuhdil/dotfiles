@@ -82,8 +82,16 @@ call plug#begin(expand("~/.config/nvim/bundle"))
   " manage tags files
   Plug 'ludovicchabant/vim-gutentags'
 
-  let g:gutentags_ctags_exclude = ['*.css', '*.html', '*.js', '*compiled.php']
+  let g:gutentags_ctags_exclude = ['*.css', '*.html', '*.js', '*.json', '*.xml',
+                                  \ '*.phar', '*.ini', '*.rst', '*.md',
+                                  \ '*vendor/*/test*', '*vendor/*/Test*',
+                                  \ '*vendor/*/fixture*', '*vendor/*/Fixture*',
+                                  \ '*var/cache*', '*var/log*', '*compiled.php']
   let g:gutentags_cache_dir = expand("~/.local/share/nvim/tags")
+
+
+  " php indenting
+  Plug '2072/PHP-Indenting-for-VIm'
 
 
   " up-to-date php syntax
@@ -95,6 +103,7 @@ call plug#begin(expand("~/.config/nvim/bundle"))
 
   " improved php omnicompletion
   Plug 'shawncplus/phpcomplete.vim'
+  "Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 
 
   " automatically insert use statement
