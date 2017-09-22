@@ -130,6 +130,14 @@ call plug#begin(expand("~/.config/nvim/bundle"))
   Plug 'posva/vim-vue'
 
 
+  " elm syntax
+  Plug 'ElmCast/elm-vim'
+
+
+  " jsx syntax
+  Plug 'mxw/vim-jsx'
+
+
   " html5 omnicomplete and syntax
   Plug 'othree/html5.vim'
   Plug 'othree/html5-syntax.vim'
