@@ -1,3 +1,7 @@
+# bash completion
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
+  . $(brew --prefix)/etc/bash_completion
+fi
 
 # git prompt support
 source $(brew --prefix)/etc/bash_completion.d/git-prompt.sh
