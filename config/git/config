@@ -6,6 +6,8 @@
 	lga = !git lg --all
 [merge]
 	tool = vimdiff
+[mergetool]
+	keepBackup = false
 [mergetool "vimdiff"]
 	path = nvim
 [filter "lfs"]
