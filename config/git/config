@@ -10,6 +10,9 @@
 	keepBackup = false
 [mergetool "vimdiff"]
 	path = nvim
+[mergetool "unityyamlmerge"]
+	trustExitCode = false
+	cmd = '/Applications/Unity/Unity.app/Contents/Tools/UnityYAMLMerge' merge -p "$BASE" "$REMOTE" "$LOCAL" "$MERGED"
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f

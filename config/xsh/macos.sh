@@ -6,9 +6,13 @@ fi
 # git prompt support
 source $(brew --prefix)/etc/bash_completion.d/git-prompt.sh
 
+# java path
+#export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_162.jdk/Contents/Home
+
 # use gnu coreutils
 export PATH="$(brew --prefix)/opt/coreutils/libexec/gnubin:$PATH"
 export MANPATH="$(brew --prefix)/opt/coreutils/libexec/gnuman:$MANPATH"
+
 
 
 # Recursively delete `.DS_Store` files
