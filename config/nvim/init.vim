@@ -195,7 +195,10 @@ if has('syntax')
   syntax enable             " enable syntax highlighting
 endif
 set hidden                  " allow buffer switching without saving
-set autoread                " automatically reload file changed from outside
+
+" check file change every 4 seconds ('CursorHold') and reload the buffer upon detecting change
+set autoread
+autocmd CursorHold * checktime
 
 
 "" User interface ============================================================
@@ -233,8 +236,8 @@ set cpoptions+=$            " put $ at the end of changed text instead of just d
 
 " indentation
 set tabstop=4               " tab column is 4 spaces
-set shiftwidth=4            " use indent of 4 spaces
 set softtabstop=4           " let backspace delete indent
+set shiftwidth=4            " use indent of 4 spaces
 set expandtab               " indent use spaces, not tabs
 
 " override indentation for filetypes
