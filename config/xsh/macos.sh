@@ -9,6 +9,11 @@ source $(brew --prefix)/etc/bash_completion.d/git-prompt.sh
 # java path
 #export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_162.jdk/Contents/Home
 
+# android sdk path
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+
 # use gnu coreutils
 export PATH="$(brew --prefix)/opt/coreutils/libexec/gnubin:$PATH"
 export MANPATH="$(brew --prefix)/opt/coreutils/libexec/gnuman:$MANPATH"
