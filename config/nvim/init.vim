@@ -119,7 +119,7 @@ call plug#begin(expand("~/.config/nvim/bundle"))
 
 
   " better autocompletion for javascript
-  Plug 'marijnh/tern_for_vim'           ,{ 'do': 'npm install' }
+  "Plug 'marijnh/tern_for_vim'           ,{ 'do': 'npm install' }
 
 
   " javascript syntax & indent
@@ -136,6 +136,10 @@ call plug#begin(expand("~/.config/nvim/bundle"))
 
   " jsx syntax
   Plug 'mxw/vim-jsx'
+
+
+  " typescript syntax
+  Plug 'HerringtonDarkholme/yats.vim'
 
 
   " html5 omnicomplete and syntax
@@ -247,6 +251,8 @@ autocmd Filetype less       setlocal ts=2 sts=2 sw=2 expandtab
 autocmd Filetype html       setlocal ts=2 sts=2 sw=2 expandtab
 autocmd Filetype html.twig  setlocal ts=2 sts=2 sw=2 expandtab
 autocmd FileType blade      setlocal ts=2 sts=2 sw=2 expandtab
+autocmd FileType javascript setlocal ts=2 sts=2 sw=2 expandtab
+autocmd FileType javascript.jsx setlocal ts=2 sts=2 sw=2 expandtab
 
 
 "" Miscellaneous ==================================================================
