@@ -1,4 +1,4 @@
 Dotfiles
 ========
 
-Require [Hack](https://github.com/chrissimpkins/Hack) font.
+Recommended font: [Hack](https://github.com/source-foundry/Hack).

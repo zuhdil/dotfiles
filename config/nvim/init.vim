@@ -1,300 +1,192 @@
-"" Plugins ===================================================================
-" prevent loading vimball
-let g:loaded_vimballPlugin=1
-let g:loaded_vimball=1
+" Plugins: {{{1
+" Plugin register {{{2
+function! PackInit() abort
+  packadd minpac
+  call minpac#init()
+  call minpac#add('k-takata/minpac', {'type': 'opt'})
 
-if empty(glob('~/.config/nvim/autoload/plug.vim'))
-  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall | source $MYVIMRC
+  " Additional plugins here. {{{3
+  call minpac#add('ntpeters/vim-better-whitespace')
+  call minpac#add('w0rp/ale')
+  call minpac#add('leafgarland/typescript-vim')
+
+  call minpac#add('NLKNguyen/papercolor-theme', {'type': 'opt'})
+  call minpac#add('pangloss/vim-javascript', {'type': 'opt'})
+  call minpac#add('maxmellon/vim-jsx-pretty', {'type': 'opt'})
+  call minpac#add('qpkorr/vim-renamer', {'type': 'opt'})
+  call minpac#add('mattn/emmet-vim', {'type': 'opt'})
+endfunction
+
+" Plugin settings here. {{{2
+if has('autocmd')
+  augroup ondemand_plugins
+    " release all autocomands in these group
+    autocmd!
+
+    " by file types
+    autocmd FileType javascript packadd vim-javascript
+    autocmd FileType javascript,typescript packadd vim-jsx-pretty
+    autocmd FileType html,css,javascript,typecheck packadd emmet-vim
+
+    " by command calls
+    autocmd CmdUndefined Renamer packadd vim-renamer
+  augroup END
 endif
 
-" plugin list
-call plug#begin(expand("~/.config/nvim/bundle"))
-
-  " colorscheme that looks good on terminal
-  Plug 'endel/vim-github-colorscheme'
-
-  Plug 'NLKNguyen/papercolor-theme'
-
-  Plug 'zuhdil/vim-alder'
-
-
-  " full path fuzzy finder (file, buffer, mru, tag, etc)
-  Plug 'kien/ctrlp.vim'
-
-  let g:ctrlp_clear_cache_on_exit=0       " keep cache for fast performance
-  let g:ctrlp_match_window='max:30'       " longer match window
-  let g:ctrlp_open_multiple_files='h'     " open each file in horizontal split
-  let g:ctrlp_open_new_file='h'           " open new file in horizontal split
-  let g:ctrlp_custom_ignore={
-    \ 'dir':  '\v[\/]\.(git|hg|svn|bzr)$',
-    \ 'file': '\v\.(exe|so|dll|pyc|swo|swp)$|\v\~$',
-    \ }
-  let g:ctrlp_user_command={
-    \ 'types': {
-      \ 1: ['.git', 'cd %s && git ls-files . -co --exclude-standard'],
-      \ 2: ['.hg', 'hg --cwd %s locate -I .'],
-      \ },
-    \ 'fallback': 'find %s -type f'
-    \ }
-  let g:ctrlp_prompt_mappings = {
-    \ 'PrtClearCache()':      ['<F5>', '<c-q>'],
-    \ }
-
-
-  " netrw enhanced
-  Plug 'tpope/vim-vinegar'
-
-
-  " use the power of vim to rename groups of files
-  Plug 'vim-scripts/renamer.vim'        , { 'on': 'Renamer' }
-
-
-  " rename current file
-  Plug 'danro/rename.vim'               , { 'on': 'Rename' }
-
-
-  " session helper
-  if has('mksession')
-    Plug 'tpope/vim-obsession'
-
-    if has('statusline')
-        set statusline=%<%f\ %h%m%r%=%{ObsessionStatus()}\ %-14.(%l,%c%V%)\ %P
-    endif
-
-
-    Plug 'zuhdil/vim-posession'
-
-    let g:posession_dir = '~/.local/share/nvim/session/'
-
-  endif
-
-
-  " handle extra white spaces
-  Plug 'ntpeters/vim-better-whitespace'
-
-
-  " improves HTML & CSS workflow
-  Plug 'mattn/emmet-vim'
-
-
-  " manage tags files
-  Plug 'ludovicchabant/vim-gutentags'
-
-  let g:gutentags_ctags_exclude = ['*.css', '*.html', '*.js', '*.json', '*.xml',
-                                  \ '*.phar', '*.ini', '*.rst', '*.md',
-                                  \ '*vendor/*/test*', '*vendor/*/Test*',
-                                  \ '*vendor/*/fixture*', '*vendor/*/Fixture*',
-                                  \ '*var/cache*', '*var/log*', '*compiled.php']
-  let g:gutentags_cache_dir = expand("~/.local/share/nvim/tags")
-
-
-  " php indenting
-  Plug '2072/PHP-Indenting-for-VIm'
-
-
-  " up-to-date php syntax
-  Plug 'StanAngeloff/php.vim'
-
-  let php_folding=0
-  let php_phpdoc_folding=0
-
-
-  " improved php omnicompletion
-  Plug 'shawncplus/phpcomplete.vim'
-  "Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
-
-
-  " automatically insert use statement
-  Plug 'arnaud-lb/vim-php-namespace'
-
-
-  " haskell syntax
-  Plug 'neovimhaskell/haskell-vim'
-
-
-  " scala syntax
-  Plug 'derekwyatt/vim-scala'
-
-
-  " better autocompletion for javascript
-  "Plug 'marijnh/tern_for_vim'           ,{ 'do': 'npm install' }
-
-
-  " javascript syntax & indent
-  Plug 'pangloss/vim-javascript'
-
-
-  " vue syntax
-  Plug 'posva/vim-vue'
-
-
-  " elm syntax
-  Plug 'ElmCast/elm-vim'
-
-
-  " jsx syntax
-  Plug 'mxw/vim-jsx'
-
-
-  " typescript syntax
-  Plug 'HerringtonDarkholme/yats.vim'
-
-
-  " html5 omnicomplete and syntax
-  Plug 'othree/html5.vim'
-  Plug 'othree/html5-syntax.vim'
-
-
-  " css syntax
-  Plug 'JulesWang/css.vim'
-  Plug 'hail2u/vim-css3-syntax'
-
-
-  " highlight colors in css files
-  Plug 'ap/vim-css-color'
-
-
-  " scss syntax
-  Plug 'cakebaker/scss-syntax.vim'
-
-
-  " less syntax
-  Plug 'groenewege/vim-less'
-
-
-  " twig syntax
-  Plug 'evidens/vim-twig'
-
-
-  " blade syntax
-  Plug 'jwalton512/vim-blade'
-
-
-  " Github flavored markdown
-  Plug 'gabrielelana/vim-markdown'
-
-  let g:markdown_include_jekyll_support = 0
-  let g:markdown_enable_spell_checking = 0
-
-
-call plug#end()
-
-" Load matchit.vim, but only if the user hasn't installed a newer version.
-if !exists('g:loaded_matchit') && findfile('plugin/matchit.vim', &rtp) ==# ''
-  runtime! macros/matchit.vim
+" ALE config
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_save = 1 " default
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_filetype_changed = 0
+
+" vim-javascript
+let g:javascript_plugin_jsdoc = 1
+let g:javascript_plugin_flow = 1
+
+" vim-renamer
+" apply file renaming with :w
+let g:RenamerSupportColonWToRename = 1
+
+" emmet
+let g:user_emmet_settings = {
+      \  'javascript' : {
+      \     'extends' : 'jsx',
+      \  },
+      \  'typescript' : {
+      \     'extends' : 'jsx',
+      \  },
+      \}
+
+
+" User commands for updating/cleaning the plugins. {{{2
+command! PackUpdate call PackInit() | call minpac#update('', {'do': 'call minpac#status()'})
+command! PackClean  call PackInit() | call minpac#clean()
+command! PackStatus call PackInit() | call minpac#status()
+
+" Install minpac if not already installed {{{2
+if executable('git') && globpath(split(&rtp, ',')[0], 'pack/minpac') == ''
+  echo 'Install minpac ...'
+  execute 'silent !git clone https://github.com/k-takata/minpac.git ' . split(&packpath, ',')[0] . '/pack/minpac/opt/minpac'
+  call PackInit() | call minpac#update('', {'do': 'source $MYVIMRC'})
 endif
 
 
-"" themes ====================================================================
+
+" Editor: {{{1
+if has('syntax')
+  " enable syntax highlighting
+  syntax enable
+endif
+
 colorscheme PaperColor
 
-
-"" General config ============================================================
-if has('autocmd')
-  filetype plugin indent on " load file type plugins + indentation
-endif
-if has('syntax')
-  syntax enable             " enable syntax highlighting
-endif
-set hidden                  " allow buffer switching without saving
-
-" check file change every 4 seconds ('CursorHold') and reload the buffer upon detecting change
-set autoread
-autocmd CursorHold * checktime
-
-
-"" User interface ============================================================
-set number                  " show line numbers
-set laststatus=2            " always show status line
-set showmode                " display the current mode
-set splitbelow              " more natural split opening
-set splitright
-if has('cmdline_info')
-  set showcmd               " display incomplete commands
-  set ruler                 " cursor position
-endif
-if !&scrolloff
-  set scrolloff=1           " keep a line above or below the cursor when scrolling
-endif
-if !&sidescrolloff
-  set sidescrolloff=5       " keep 5 columns next to the cursor when scrolling horizontally
-endif
-if has('linebreak')
-    set linebreak           " if wrap is on, wrap line at a word boundary
-    set breakat=\ \	_,;*+\\/?!  " a somewhat code friendly line wrap break char
-    set showbreak=↳…        " symbol for the wrapped lines
-    set breakindent         " indent wrapped lines
-endif
-set list                    " show hidden character and highlight problematic whitespace
+" show line numbers
+set number
+" show hidden character and highlight problematic whitespace
+set list
 set listchars=tab:┊·,trail:×,extends:…,precedes:…,nbsp:∙
 
-
-"" Editing ===================================================================
-if has('virtualedit')
-  set virtualedit=all       " allow for cursor beyond last character
+" Status line {{{2
+" always show status line
+set laststatus=2
+" command completion, list matches and complete till logest common part
+set wildmode=list:longest
+if has('cmdline_info')
+  " display incomplete commands
+  set showcmd
+  " cursor position
+  set ruler
 endif
-set textwidth=0             " prevent automatic wraping of inserted text
-set cpoptions+=$            " put $ at the end of changed text instead of just deleting
 
-" indentation
-set tabstop=4               " tab column is 4 spaces
-set softtabstop=4           " let backspace delete indent
-set shiftwidth=4            " use indent of 4 spaces
-set expandtab               " indent use spaces, not tabs
+" Cursor {{{2
+" allow for cursor beyond last character
+if has('virtualedit') | set virtualedit=all | endif
+" keep 5 columns next to the cursor when scrolling horizontally
+if !&sidescrolloff | set sidescrolloff=5 | endif
+" keep a line above or below the cursor when scrolling
+if !&scrolloff | set scrolloff=1 | endif
+" put $ at the end of changed text instead of just deleting
+set cpoptions+=$
 
-" override indentation for filetypes
-autocmd Filetype vim        setlocal ts=2 sts=2 sw=2 expandtab
-autocmd Filetype css        setlocal ts=2 sts=2 sw=2 expandtab
-autocmd Filetype less       setlocal ts=2 sts=2 sw=2 expandtab
-autocmd Filetype html       setlocal ts=2 sts=2 sw=2 expandtab
-autocmd Filetype html.twig  setlocal ts=2 sts=2 sw=2 expandtab
-autocmd FileType blade      setlocal ts=2 sts=2 sw=2 expandtab
-autocmd FileType javascript setlocal ts=2 sts=2 sw=2 expandtab
-autocmd FileType javascript.jsx setlocal ts=2 sts=2 sw=2 expandtab
+" Indentation {{{2
+" tab column is 2 spaces
+set tabstop=2
+" let backspace delete indent
+set softtabstop=2
+" use indent of 2 spaces
+set shiftwidth=2
+" indent use spaces, not tabs
+set expandtab
 
-
-"" Miscellaneous ==================================================================
-set ignorecase              " searches are case insensitive...
-set smartcase               " ... unless they contain at least one capital letter
-
-set wildmode=list:longest   " command completion, list matches and complete till logest common part
-
-set nobackup                " just cluttering working dir, we should use VCS anyway
-if &history < 1000
-  set history=1000          " store a ton of history
+" Text wrapping {{{2
+" prevent automatic wraping of inserted text
+set textwidth=0
+if has('linebreak')
+  " if wrap is on, wrap line at a word boundary
+  set linebreak
+  " a somewhat code friendly line wrap break char
+  set breakat=\ \	_,;*+\\/?!
+  " symbol for the wrapped lines
+  set showbreak=↳…
+  " indent wrapped lines
+  set breakindent
 endif
+
+" Searching {{{2
+" searches are case insensitive...
+set ignorecase
+" ... unless they contain at least one capital letter
+set smartcase
+
+
+
+" History And Backup: {{{1
+" just cluttering working dir, we should use VCS anyway
+set nobackup
+" store a ton of history
+if &history < 1000 | set history=1000 | endif
+" persist undo history
 if has('persistent_undo')
-  set undofile              " persist undo history
-  set undolevels=1000       " maximum number of changes that can be undone
-  set undoreload=10000      " maximum number lines to save for undo on a buffer reload
+  set undofile
+  " maximum number of changes that can be undone
+  set undolevels=1000
+  " maximum number lines to save for undo on a buffer reload
+  set undoreload=10000
+  " set undo files directory for vim
+  if !has('nvim') | set undodir=~/.vim/undo | endif
 endif
-if has('mksession')
-  set sessionoptions+=resize                " save windows state
-  autocmd BufWinLeave *.* silent! mkview    " save view on buffer removed from window
-  autocmd BufWinEnter *.* silent! loadview  " load view on buffer displayed in a window
+
+
+
+" Window Buffer: {{{1
+" detect changes from outside
+set autoread
+" allow buffer switching without saving
+set hidden
+" more natural split opening
+set splitbelow
+set splitright
+
+
+
+" Autocmd: {{{1
+if has('autocmd')
+  " load file type plugins + indentation
+  filetype plugin indent on
+
+  augroup vimrc
+    " release all autocomands in these group
+    autocmd!
+
+    if has('persistent_undo')
+      " disable persistent undo for temporary file,
+      " rel 'set undofile'
+      autocmd BufWritePre /tmp/* setlocal noundofile
+    endif
+    " check file change every 4 seconds ('CursorHold') and reload the buffer upon detecting change,
+    " rel 'set autoread'
+    autocmd CursorHold * checktime
+  augroup END
 endif
 
-autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
-
-
-"" arnaud-lb/vim-php-namespace ================================================
-let g:php_namespace_sort_after_insert = 1
-
-autocmd FileType php inoremap <Leader>s <Esc>:call PhpSortUse()<CR>
-autocmd FileType php noremap <Leader>s :call PhpSortUse()<CR>
-
-function! IPhpInsertUse()
-  call PhpInsertUse()
-  call feedkeys('a',  'n')
-endfunction
-autocmd FileType php inoremap <Leader>u <Esc>:call IPhpInsertUse()<CR>
-autocmd FileType php noremap <Leader>u :call PhpInsertUse()<CR>
-
-function! IPhpExpandClass()
-  call PhpExpandClass()
-  call feedkeys('a', 'n')
-endfunction
-autocmd FileType php inoremap <Leader>e <Esc>:call IPhpExpandClass()<CR>
-autocmd FileType php noremap <Leader>e :call PhpExpandClass()<CR>
+" vim:fdm=marker expandtab fdc=3 ft=vim ts=2 sw=2 sts=2:
