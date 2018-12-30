@@ -11,10 +11,15 @@ function! PackInit() abort
   call minpac#add('leafgarland/typescript-vim')
 
   call minpac#add('NLKNguyen/papercolor-theme', {'type': 'opt'})
-  call minpac#add('pangloss/vim-javascript', {'type': 'opt'})
-  call minpac#add('maxmellon/vim-jsx-pretty', {'type': 'opt'})
   call minpac#add('qpkorr/vim-renamer', {'type': 'opt'})
   call minpac#add('mattn/emmet-vim', {'type': 'opt'})
+  call minpac#add('pangloss/vim-javascript', {'type': 'opt'})
+  call minpac#add('maxmellon/vim-jsx-pretty', {'type': 'opt'})
+
+  if has('nvim')
+    call minpac#add('neoclide/coc.nvim', {'type': 'opt', 'do': {-> coc#util#install()}})
+    call minpac#add('Shougo/denite.nvim', {'type': 'opt', 'do': {-> :UpdateRemotePlugins}})
+  endif
 endfunction
 
 " Plugin settings here. {{{2
@@ -30,6 +35,11 @@ if has('autocmd')
 
     " by command calls
     autocmd CmdUndefined Renamer packadd vim-renamer
+
+    if has('nvim')
+      autocmd FileType javascript,typescript packadd coc.nvim
+      autocmd CmdUndefined Denite* packadd denite.nvim
+    endif
   augroup END
 endif
 
