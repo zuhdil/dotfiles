@@ -9,6 +9,7 @@ function! PackInit() abort
   call minpac#add('ntpeters/vim-better-whitespace')
   call minpac#add('w0rp/ale')
   call minpac#add('leafgarland/typescript-vim')
+  call minpac#add('neoclide/jsonc.vim')
 
   call minpac#add('NLKNguyen/papercolor-theme', {'type': 'opt'})
   call minpac#add('qpkorr/vim-renamer', {'type': 'opt'})
@@ -18,7 +19,7 @@ function! PackInit() abort
 
   if has('nvim')
     call minpac#add('neoclide/coc.nvim', {'type': 'opt', 'do': {-> coc#util#install()}})
-    call minpac#add('Shougo/denite.nvim', {'type': 'opt', 'do': {-> :UpdateRemotePlugins}})
+    call minpac#add('Shougo/denite.nvim', {'type': 'opt'})
   endif
 endfunction
 
@@ -37,7 +38,7 @@ if has('autocmd')
     autocmd CmdUndefined Renamer packadd vim-renamer
 
     if has('nvim')
-      autocmd FileType javascript,typescript packadd coc.nvim
+      autocmd FileType javascript,typescript,json,jsonc packadd coc.nvim
       autocmd CmdUndefined Denite* packadd denite.nvim
     endif
   augroup END
@@ -69,7 +70,11 @@ let g:user_emmet_settings = {
 
 
 " User commands for updating/cleaning the plugins. {{{2
-command! PackUpdate call PackInit() | call minpac#update('', {'do': 'call minpac#status()'})
+function! PostPackUpdate()
+  if has('nvim') | UpdateRemotePlugins | endif
+  call minpac#status()
+endfunction
+command! PackUpdate call PackInit() | call minpac#update('', {'do': 'call PostPackUpdate()'})
 command! PackClean  call PackInit() | call minpac#clean()
 command! PackStatus call PackInit() | call minpac#status()
 
@@ -196,6 +201,8 @@ if has('autocmd')
     " check file change every 4 seconds ('CursorHold') and reload the buffer upon detecting change,
     " rel 'set autoread'
     autocmd CursorHold * checktime
+    " overwrite tsconfig file type
+    autocmd BufNewFile,BufRead tsconfig.json setlocal filetype=jsonc
   augroup END
 endif
 
