@@ -10,6 +10,7 @@ function! PackInit() abort
   call minpac#add('w0rp/ale')
   call minpac#add('leafgarland/typescript-vim')
   call minpac#add('neoclide/jsonc.vim')
+  call minpac#add('Yggdroot/LeaderF', {'do': '!./install.sh' })
 
   call minpac#add('NLKNguyen/papercolor-theme', {'type': 'opt'})
   call minpac#add('qpkorr/vim-renamer', {'type': 'opt'})
