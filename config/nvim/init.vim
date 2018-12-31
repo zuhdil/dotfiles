@@ -6,11 +6,11 @@ function! PackInit() abort
   call minpac#add('k-takata/minpac', {'type': 'opt'})
 
   " Additional plugins here. {{{3
-  call minpac#add('ntpeters/vim-better-whitespace')
   call minpac#add('w0rp/ale')
   call minpac#add('leafgarland/typescript-vim')
   call minpac#add('neoclide/jsonc.vim')
   call minpac#add('Yggdroot/LeaderF', {'do': '!./install.sh' })
+  call minpac#add('tpope/vim-eunuch')
 
   call minpac#add('NLKNguyen/papercolor-theme', {'type': 'opt'})
   call minpac#add('qpkorr/vim-renamer', {'type': 'opt'})
@@ -50,6 +50,11 @@ let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_save = 1 " default
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_filetype_changed = 0
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'javascript': ['eslint'],
+\   'typescript': ['tslint'],
+\}
 
 " vim-javascript
 let g:javascript_plugin_jsdoc = 1
