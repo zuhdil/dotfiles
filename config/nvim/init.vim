@@ -51,10 +51,10 @@ let g:ale_lint_on_save = 1 " default
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_filetype_changed = 0
 let g:ale_fixers = {
-\   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'javascript': ['eslint'],
-\   'typescript': ['tslint'],
-\}
+      \  '*': ['remove_trailing_lines', 'trim_whitespace'],
+      \  'javascript': ['eslint'],
+      \  'typescript': ['tslint'],
+      \}
 
 " vim-javascript
 let g:javascript_plugin_jsdoc = 1
@@ -99,6 +99,7 @@ if has('syntax')
   syntax enable
 endif
 
+set background=light
 colorscheme PaperColor
 
 " show line numbers
