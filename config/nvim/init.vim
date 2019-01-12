@@ -33,7 +33,7 @@ if has('autocmd')
     " by file types
     autocmd FileType javascript packadd vim-javascript
     autocmd FileType javascript,typescript packadd vim-jsx-pretty
-    autocmd FileType html,css,javascript,typecheck packadd emmet-vim
+    autocmd FileType html,css,javascript,typescript packadd emmet-vim
 
     " by command calls
     autocmd CmdUndefined Renamer packadd vim-renamer
