@@ -33,4 +33,4 @@ alias showallfiles="defaults write com.apple.finder AppleShowAllFiles -bool true
 alias dontshowallfiles="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
 
 # Get macOS Software Updates, and update installed Ruby gems, Homebrew, npm, and their installed packages
-alias systemupdate='sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup;'
+alias systemupdate='sudo softwareupdate -i -a; brew update; brew upgrade; brew cask upgrade; brew cleanup;'
