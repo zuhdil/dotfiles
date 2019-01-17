@@ -19,7 +19,7 @@ function! PackInit() abort
   call minpac#add('maxmellon/vim-jsx-pretty', {'type': 'opt'})
 
   if has('nvim')
-    call minpac#add('neoclide/coc.nvim', {'type': 'opt', 'do': {-> coc#util#install()}})
+    call minpac#add('neoclide/coc.nvim', {'type': 'opt', 'do': 'call coc#util#install()'})
     call minpac#add('Shougo/denite.nvim', {'type': 'opt'})
   endif
 endfunction
@@ -53,6 +53,9 @@ let g:ale_lint_on_filetype_changed = 0
 let g:ale_fixers = {
       \  '*': ['remove_trailing_lines', 'trim_whitespace'],
       \  'javascript': ['eslint'],
+      \  'typescript': ['tslint'],
+      \}
+let g:ale_linters = {
       \  'typescript': ['tslint'],
       \}
 
