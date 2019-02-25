@@ -15,12 +15,16 @@ function! PackInit() abort
   call minpac#add('NLKNguyen/papercolor-theme', {'type': 'opt'})
   call minpac#add('qpkorr/vim-renamer', {'type': 'opt'})
   call minpac#add('mattn/emmet-vim', {'type': 'opt'})
+
   call minpac#add('pangloss/vim-javascript', {'type': 'opt'})
   call minpac#add('maxmellon/vim-jsx-pretty', {'type': 'opt'})
 
+  call minpac#add('StanAngeloff/php.vim', {'type': 'opt'})
+  call minpac#add('2072/PHP-Indenting-for-VIm', {'type': 'opt'})
+  call minpac#add('jwalton512/vim-blade', {'type': 'opt'})
+
   if has('nvim')
     call minpac#add('neoclide/coc.nvim', {'type': 'opt', 'do': 'call coc#util#install()'})
-    call minpac#add('Shougo/denite.nvim', {'type': 'opt'})
   endif
 endfunction
 
@@ -33,14 +37,14 @@ if has('autocmd')
     " by file types
     autocmd FileType javascript packadd vim-javascript
     autocmd FileType javascript,typescript packadd vim-jsx-pretty
-    autocmd FileType html,css,javascript,typescript packadd emmet-vim
+    autocmd FileType html,css,javascript,typescript,php packadd emmet-vim
+    autocmd FileType php packadd php.vim | packadd PHP-Indenting-for-VIm | packadd vim-blade
 
     " by command calls
     autocmd CmdUndefined Renamer packadd vim-renamer
 
     if has('nvim')
       autocmd FileType javascript,typescript,json,jsonc packadd coc.nvim
-      autocmd CmdUndefined Denite* packadd denite.nvim
     endif
   augroup END
 endif
@@ -213,6 +217,10 @@ if has('autocmd')
     autocmd CursorHold * checktime
     " overwrite tsconfig file type
     autocmd BufNewFile,BufRead tsconfig.json setlocal filetype=jsonc
+  augroup END
+
+  augroup filetypeoverrides
+    autocmd FileType php setlocal ts=4 sts=4 sw=4 et
   augroup END
 endif
 
