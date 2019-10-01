@@ -1,31 +1,20 @@
-" Plugins: {{{1
-" Plugin register {{{2
-function! PackInit() abort
-  packadd minpac
-  call minpac#init()
-  call minpac#add('k-takata/minpac', {'type': 'opt'})
+" Packager: {{{1
+if &compatible
+  set nocompatible
+endif
 
-  " Additional plugins here. {{{3
-  call minpac#add('w0rp/ale')
-  call minpac#add('leafgarland/typescript-vim')
-  call minpac#add('neoclide/jsonc.vim')
-  call minpac#add('Yggdroot/LeaderF', {'do': '!./install.sh' })
-  call minpac#add('tpope/vim-eunuch')
+" Load packager only when you need it {{{2
+function! PackagerInit() abort
+  packadd vim-packager
+  call packager#init()
+  call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
 
-  call minpac#add('NLKNguyen/papercolor-theme', {'type': 'opt'})
-  call minpac#add('qpkorr/vim-renamer', {'type': 'opt'})
-  call minpac#add('mattn/emmet-vim', {'type': 'opt'})
+  " Register additional plugins here. {{{3
+  call packager#add('tpope/vim-eunuch')
+  call packager#add('kien/ctrlp.vim')
 
-  call minpac#add('pangloss/vim-javascript', {'type': 'opt'})
-  call minpac#add('maxmellon/vim-jsx-pretty', {'type': 'opt'})
-
-  call minpac#add('StanAngeloff/php.vim', {'type': 'opt'})
-  call minpac#add('2072/PHP-Indenting-for-VIm', {'type': 'opt'})
-  call minpac#add('jwalton512/vim-blade', {'type': 'opt'})
-
-  if has('nvim')
-    call minpac#add('neoclide/coc.nvim', {'type': 'opt', 'do': 'call coc#util#install()'})
-  endif
+  call packager#add('NLKNguyen/papercolor-theme', {'type': 'opt'})
+  call packager#add('qpkorr/vim-renamer', {'type': 'opt'})
 endfunction
 
 " Plugin settings here. {{{2
@@ -34,68 +23,28 @@ if has('autocmd')
     " release all autocomands in these group
     autocmd!
 
-    " by file types
-    autocmd FileType javascript packadd vim-javascript
-    autocmd FileType javascript,typescript packadd vim-jsx-pretty
-    autocmd FileType html,css,javascript,typescript,php packadd emmet-vim
-    autocmd FileType php packadd php.vim | packadd PHP-Indenting-for-VIm | packadd vim-blade
-
     " by command calls
     autocmd CmdUndefined Renamer packadd vim-renamer
-
-    if has('nvim')
-      autocmd FileType javascript,typescript,json,jsonc packadd coc.nvim
-    endif
   augroup END
 endif
 
-" ALE config
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_lint_on_save = 1 " default
-let g:ale_lint_on_enter = 0
-let g:ale_lint_on_filetype_changed = 0
-let g:ale_fixers = {
-      \  '*': ['remove_trailing_lines', 'trim_whitespace'],
-      \  'javascript': ['eslint'],
-      \  'typescript': ['tslint'],
-      \}
-let g:ale_linters = {
-      \  'typescript': ['tslint'],
-      \}
+" CtrlP config
+" Use fd in CtrlP for listing files, very fast and respects .gitignore.
+let g:ctrlp_user_command = 'fd --type f --hidden --exclude ".git" --color=never "" %s'
+" Using fd is fast, we don't need to cache.
+let g:ctrlp_use_caching = 0
 
-" vim-javascript
-let g:javascript_plugin_jsdoc = 1
-let g:javascript_plugin_flow = 1
+" User commands for managing plugins. {{{2
+command! PackagerInstall call PackagerInit() | call packager#install()
+command! -bang PackagerUpdate call PackagerInit() | call packager#update({ 'force_hooks': '<bang>'})
+command! PackagerClean call PackagerInit() | call packager#clean()
+command! PackagerStatus call PackagerInit() | call packager#status()
 
-" vim-renamer
-" apply file renaming with :w
-let g:RenamerSupportColonWToRename = 1
-
-" emmet
-let g:user_emmet_settings = {
-      \  'javascript' : {
-      \     'extends' : 'jsx',
-      \  },
-      \  'typescript' : {
-      \     'extends' : 'jsx',
-      \  },
-      \}
-
-
-" User commands for updating/cleaning the plugins. {{{2
-function! PostPackUpdate()
-  if has('nvim') | UpdateRemotePlugins | endif
-  call minpac#status()
-endfunction
-command! PackUpdate call PackInit() | call minpac#update('', {'do': 'call PostPackUpdate()'})
-command! PackClean  call PackInit() | call minpac#clean()
-command! PackStatus call PackInit() | call minpac#status()
-
-" Install minpac if not already installed {{{2
-if executable('git') && globpath(split(&rtp, ',')[0], 'pack/minpac') == ''
-  echo 'Install minpac ...'
-  execute 'silent !git clone https://github.com/k-takata/minpac.git ' . split(&packpath, ',')[0] . '/pack/minpac/opt/minpac'
-  call PackInit() | call minpac#update('', {'do': 'source $MYVIMRC'})
+" Install vim-packager if not already installed {{{2
+if executable('git') && globpath(split(&rtp, ',')[0], 'pack/packager') == ''
+  echo 'Install vim-packager ...'
+  execute 'silent !git clone https://github.com/kristijanhusak/vim-packager ' . split(&packpath, ',')[0] . '/pack/packager/opt/vim-packager'
+  :PackagerInstall
 endif
 
 
