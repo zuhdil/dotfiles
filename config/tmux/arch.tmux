@@ -2,7 +2,8 @@
 set -g status-interval 1
 
 # Basic status bar colors
-set -g status-style bg=green,fg=magenta
+# set -g status-style bg=green,fg=magenta
+set -g status-style bg=green,fg=colour8
 
 # Left side of status bar
 set -g status-left-style bg=green,fg=black
