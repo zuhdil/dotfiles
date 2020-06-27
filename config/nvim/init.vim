@@ -13,7 +13,7 @@ function! PackagerInit() abort
   call packager#add('tpope/vim-eunuch')
   call packager#add('kien/ctrlp.vim')
 
-  call packager#add('NLKNguyen/papercolor-theme', {'type': 'opt'})
+  call packager#add('lifepillar/vim-gruvbox8', {'type': 'opt'})
   call packager#add('qpkorr/vim-renamer', {'type': 'opt'})
 endfunction
 
@@ -55,8 +55,8 @@ if has('syntax')
   syntax enable
 endif
 
-set background=light
-colorscheme PaperColor
+set background=dark
+colorscheme gruvbox8_hard
 
 " show line numbers
 set number
