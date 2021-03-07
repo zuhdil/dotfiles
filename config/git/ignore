@@ -5,3 +5,10 @@ Desktop.ini
 # Thumbnail cache files
 ._*
 Thumbs.db
+
+# Editor related files
+.ctrlp
+Session.vim
+
+# envs
+.python-version

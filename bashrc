@@ -13,3 +13,11 @@ __prompt_command()
 }
 
 PROMPT_COMMAND="__prompt_command"
+
+# enable pyenv
+export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
+# enable nvm
+source /usr/share/nvm/init-nvm.sh
